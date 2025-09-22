@@ -174,3 +174,55 @@ FROM Logs l
 LEFT JOIN Logs l2 ON l.id = l2.id + 1
 LEFT JOIN Logs l3 ON l.id = l3.id + 2
 WHERE l.num = l2.num AND l2.num = l3.num
+
+/*
+181. Employees Earning More Than Their Managers
+
+Table: Employee
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| salary      | int     |
+| managerId   | int     |
++-------------+---------+
+id is the primary key (column with unique values) for this table.
+Each row of this table indicates the ID of an employee, their name, salary, and the ID of their manager.
+ 
+
+Write a solution to find the employees who earn more than their managers.
+
+Return the result table in any order.
+
+*/
+
+SELECT e.name AS Employee FROM employee e 
+WHERE e.managerId IS NOT NULL
+AND salary > (SELECT e2.salary FROM employee e2 WHERE e2.id = e.managerId);
+
+/*
+182. Duplicate Emails
+
+Table: Person
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| email       | varchar |
++-------------+---------+
+id is the primary key (column with unique values) for this table.
+Each row of this table contains an email. The emails will not contain uppercase letters.
+ 
+
+Write a solution to report all the duplicate emails. Note that it's guaranteed that the email field is not NULL.
+
+Return the result table in any order.
+
+*/
+
+SELECT DISTINCT(email) FROM Person 
+GROUP BY email
+HAVING COUNT(email) > 1
